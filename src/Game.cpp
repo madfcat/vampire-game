@@ -159,7 +159,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
 		sf::Text startText;
 		startText.setFont(m_font);
-		startText.setString("Game is about to start... Prepare!\n\nUP to move\nLEFT, RIGHT to turn\nShift to close path\n\nCatch enemies with the closed trail!");
+		startText.setString("Game is about to start... Prepare!\n\nUP to move\nLEFT, RIGHT to turn\nHold SHIFT to close path\n\nCatch enemies with the closed trail!");
 		startText.setFillColor(sf::Color::White);
 		startText.setPosition(80.0f, 80.0f);
 		startText.setStyle(sf::Text::Bold);
