@@ -5,9 +5,9 @@
 class ResourceManager
 {
 public:
-    static void init(std::string executablePath);
-    static std::string getFilePath(const std::string& fileName);
+	static void init(std::string executablePath);
+	static std::string getFilePath(const std::string &fileName);
 
 private:
-    static inline std::string m_assetPath;
+	static inline std::string m_assetPath;
 };

@@ -8,17 +8,17 @@ class Player;
 class Vampire : public Rectangle
 {
 public:
-    Vampire(Game* game, sf::Vector2f position);
-    virtual ~Vampire() {}
-    
-    void update(float deltaTime);
+	Vampire(Game *game, sf::Vector2f position);
+	virtual ~Vampire() {}
 
-    void setIsKilled(bool isKilled) { m_isKilled = isKilled; }
-    bool isKilled() { return m_isKilled; }
+	void update(float deltaTime);
 
-	bool isEnemyBetweenTrailPoints(Player* pPlayer);
+	void setIsKilled(bool isKilled) { m_isKilled = isKilled; }
+	bool isKilled() { return m_isKilled; }
+
+	bool isEnemyBetweenTrailPoints(Player *pPlayer);
 
 private:
-    Game* m_pGame;
-    bool m_isKilled = false;
+	Game *m_pGame;
+	bool m_isKilled = false;
 };

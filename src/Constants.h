@@ -9,7 +9,6 @@ const float PlayerSpeed = 255.0f;
 
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
-// const float VampireSpeed = 100.0f;
 const float VampireSpeed = 40.0f;
 
 const float RotationSpeed = 3.0f;
