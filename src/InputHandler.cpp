@@ -1,5 +1,4 @@
 #include "InputHandler.h"
-#include "Weapon.h"
 #include "Player.h"
 
 GameInput::GameInput(Game* pGame, Player* pPlayer) :

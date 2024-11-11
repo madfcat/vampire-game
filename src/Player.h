@@ -6,7 +6,6 @@
 struct InputData;
 
 class Game;
-class Weapon;
 
 enum eDirection
 {
@@ -33,8 +32,6 @@ public:
     bool isDead() const { return m_isDead; }
     void setIsDead(bool isDead) { m_isDead = isDead; }
 
-    Weapon* getWeapon() { return m_pWeapon.get(); }
-
 	void addTrailSegment();
 	bool isPathClosed();
 	bool isPointInsideRectangle(const sf::Vector2f& point, const std::vector<sf::Vector2f>& rectangleCorners) const;
@@ -49,7 +46,6 @@ private:
     bool    m_isDead = false;
     eDirection m_direction = LEFT;
     Game*   m_pGame;
-    std::unique_ptr<Weapon> m_pWeapon;
 
 	float m_angle;
 	std::vector<Rectangle> m_trail;

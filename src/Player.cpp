@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Weapon.h"
 #include "InputHandler.h"
 #include "Constants.h"
 #include <vector>
@@ -8,7 +7,6 @@
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-    m_pWeapon(std::make_unique<Weapon>()),
 	m_angle(-M_PI / 2)
 {
     // setOrigin(sf::Vector2f(0.0f, 0.0f));
@@ -60,24 +58,6 @@ void Player::move(InputData inputData, float deltaTime)
 		m_rectangleShape.setRotation(getRotation());
     }
 
-    // xSpeed -= inputData.m_movingLeft * PlayerSpeed;
-    // xSpeed += inputData.m_movingRight * PlayerSpeed;
-    // xSpeed *= deltaTime;
-
-    // ySpeed -= inputData.m_movingUp * PlayerSpeed;
-    // ySpeed += inputData.m_movingDown * PlayerSpeed;
-    // ySpeed *= deltaTime;
-    
-    // sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));
-    // setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth), getPosition().y);
-
-    if (m_pWeapon->isActive() == false)
-    {
-        if (inputData.m_movingLeft == true && inputData.m_movingRight == false)
-            m_direction = LEFT;
-        else if (inputData.m_movingLeft == false && inputData.m_movingRight == true)
-            m_direction = RIGHT;
-    }
 	// Update the trail
 	m_trailTimer += deltaTime;
 	if (m_trailTimer >= m_trailInterval) {
@@ -85,11 +65,6 @@ void Player::move(InputData inputData, float deltaTime)
 		m_trailTimer = 0.0f;  // Reset timer after adding a segment
 	}
 }
-
-// void Player::attack()
-// {
-//     m_pWeapon->setActive(true);
-// }
 
 bool Player::checkPath()
 {
@@ -107,13 +82,7 @@ void Player::eraseTrail()
 
 void Player::update(float deltaTime)
 {
-    sf::Vector2f weaponSize = m_pWeapon->getSize();
-
     m_sprite.setPosition(getPosition());
-    m_pWeapon->setPosition(sf::Vector2f(
-        getCenter().x - (m_direction == LEFT ? weaponSize.x : 0.0f),
-        getCenter().y - weaponSize.y / 2.0f));
-    m_pWeapon->update(deltaTime);
 	checkPath();
 }
 
@@ -134,8 +103,6 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
     }
 	// Draw the player sprite
     Rectangle::draw(target, states);
-	// Draw the weapon
-    m_pWeapon->draw(target, states);
 
 	drawBoundingBox(static_cast<sf::RenderWindow&>(target));
 }

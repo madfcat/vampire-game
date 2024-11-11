@@ -1,7 +1,6 @@
 #include "Vampire.h"
 #include "Constants.h"
 #include "Game.h"
-#include "Weapon.h"
 #include "Player.h"
 #include "MathUtils.h"
 
@@ -34,11 +33,12 @@ void Vampire::update(float deltaTime)
 		return;
 	}
 
-    if (collidesWith(pPlayer->getWeapon()))
-    {
-        setIsKilled(true);
-        return;
-    }
+	// Collides with trail
+    // if (collidesWith(pPlayer->getWeapon()))
+    // {
+    //     setIsKilled(true);
+    //     return;
+    // }
 
     if (collidesWith(pPlayer))
         pPlayer->setIsDead(true);
@@ -52,46 +52,49 @@ void Vampire::update(float deltaTime)
     m_sprite.setPosition(getPosition());
 }
 
+
+bool isPointInPolygon(const sf::Vector2f& point, const std::vector<sf::Vector2f>& polygon) {
+    int n = polygon.size();
+    bool inside = false;
+
+    for (int i = 0, j = n - 1; i < n; j = i++) {
+        const sf::Vector2f& p1 = polygon[i];
+        const sf::Vector2f& p2 = polygon[j];
+        
+        // Check if the point is between the y-coordinates of the segment
+        if ((point.y > p1.y && point.y <= p2.y) || (point.y > p2.y && point.y <= p1.y)) {
+            if (point.x < (p2.x - p1.x) * (point.y - p1.y) / (p2.y - p1.y) + p1.x) {
+                inside = !inside;
+            }
+        }
+    }
+
+    return inside;
+}
+
 bool Vampire::isEnemyBetweenTrailPoints(Player* pPlayer) {
-	
     auto& trail = pPlayer->getTrail();
     if (trail.size() < 2)
         return false;
 
-	if (pPlayer->getIsClosed())
-	{
-		const sf::Vector2f& enemyPosition = getPosition();  // Get the position of the enemy (Vampire)
+    if (pPlayer->getIsClosed()) {
+        const sf::Vector2f& enemyPosition = getPosition();  // Get the position of the enemy (Vampire)
 
-		for (size_t i = 0; i < trail.size(); ++i) {
-			const sf::Vector2f& currentPoint = trail[i].getPosition();
+        // Create a polygon from the trail points (you can decide on how many points to use, e.g., every 4 points)
+        std::vector<sf::Vector2f> polygon;
+        for (size_t i = 0; i < trail.size(); ++i) {
+            polygon.push_back(trail[i].getPosition());
+        }
 
-			// Check all points before the current one
-			for (size_t j = 0; j < i; ++j) {
-				const sf::Vector2f& previousPoint = trail[j].getPosition();
-
-				// Check if the enemy is between 'previousPoint' and 'currentPoint'
-				if ((enemyPosition.x > std::min(previousPoint.x, currentPoint.x) && enemyPosition.x < std::max(previousPoint.x, currentPoint.x)) &&
-					(enemyPosition.y > std::min(previousPoint.y, currentPoint.y) && enemyPosition.y < std::max(previousPoint.y, currentPoint.y))) {
-					return true;
-				}
-			}
-
-			// Check all points after the current one
-			for (size_t j = i + 1; j < trail.size(); ++j) {
-				const sf::Vector2f& nextPoint = trail[j].getPosition();
-
-				// Check if the enemy is between 'currentPoint' and 'nextPoint'
-				if ((enemyPosition.x > std::min(currentPoint.x, nextPoint.x) && enemyPosition.x < std::max(currentPoint.x, nextPoint.x)) &&
-					(enemyPosition.y > std::min(currentPoint.y, nextPoint.y) && enemyPosition.y < std::max(currentPoint.y, nextPoint.y))) {
-					return true;
-				}
-			}
-		}
-
-	}
+        // Check if the enemy is inside the polygon formed by the trail points
+        if (isPointInPolygon(enemyPosition, polygon)) {
+            return true;  // Enemy is inside the polygon
+        }
+    }
 
     return false;
 }
+
 
 // bool Vampire::isEnemyBetweenTrailPoints(const Player* pPlayer) const
 // {
