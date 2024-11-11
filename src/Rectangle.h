@@ -14,7 +14,7 @@ public:
     Rectangle(sf::Vector2f size, sf::Vector2f position = sf::Vector2f(0, 0));
     virtual ~Rectangle() {}
     
-    bool collidesWith(Rectangle* pOther);
+    bool collidesWith(const Rectangle* pOther) const;
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     sf::Vector2f getCenter();
@@ -34,6 +34,7 @@ public:
 	std::vector<sf::Vector2f> getCorners() const;
 	std::vector<sf::Vector2f> getAxes(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners) const;
 	bool projectionsOverlap(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners, const sf::Vector2f& axis) const;
+	sf::RectangleShape &getRectangelShape() { return m_rectangleShape; }
 
 protected:
     sf::Sprite m_sprite;

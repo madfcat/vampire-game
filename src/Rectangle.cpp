@@ -124,7 +124,7 @@ Rectangle::Rectangle(sf::Vector2f size, sf::Vector2f position) : m_size(size)
 //     return false;
 // }
 
-bool Rectangle::collidesWith(Rectangle* pOther)
+bool Rectangle::collidesWith(const Rectangle* pOther) const
 {
     sf::Vector2f thisPosition = getPosition();
     sf::Vector2f thisSize = getSize();

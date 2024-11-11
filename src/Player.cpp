@@ -75,6 +75,8 @@ void Player::move(InputData inputData, float deltaTime)
         else if (inputData.m_movingLeft == false && inputData.m_movingRight == true)
             m_direction = RIGHT;
     }
+
+	addTrailSegment();
 }
 
 void Player::attack()
@@ -91,11 +93,22 @@ void Player::update(float deltaTime)
         getCenter().x - (m_direction == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
     m_pWeapon->update(deltaTime);
+	if (m_trail.size() > 5 && isPathClosed())
+	{
+		// m_trail.erase(m_trail.begin(), m_trail.begin() + m_trail.size());
+		std::cout << "Path closed" << std::endl;
+	}
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+	// Draw trail
+    for (const auto& segment : m_trail) {
+        target.draw(segment, states);
+    }
+	// Draw the player sprite
     Rectangle::draw(target, states);
+	// Draw the weapon
     m_pWeapon->draw(target, states);
 
 	drawBoundingBox(static_cast<sf::RenderWindow&>(target));
@@ -171,4 +184,35 @@ sf::Vector2f Player::rotatePoint(const sf::Vector2f& point, float angle) const
         cosAngle * point.x - sinAngle * point.y,
         sinAngle * point.x + cosAngle * point.y
     );
+}
+
+void Player::addTrailSegment() {
+    Rectangle segment(sf::Vector2f(getSize().x, getSize().y), getPosition());
+    // segment.setPosition(getPosition());
+	segment.setOrigin(getOrigin());
+    segment.setRotation(getRotation());  // Set the rotation to match the player’s rotation
+    segment.getRectangelShape().setFillColor(sf::Color(100, 100, 255, 150));  // Semi-transparent color for trail
+	segment.getRectangelShape().setRotation(getRotation());
+    m_trail.push_back(segment);
+}
+
+// bool Player::isPathClosed() const
+// {
+//     if (m_trail.size() < 3) return false;  // Not enough segments for a loop
+
+//     const sf::Vector2f& start = m_trail.front().getPosition();
+//     const sf::Vector2f& end = m_trail.back().getPosition();
+//     float distanceThreshold = 10.0f;  // Example threshold for closure detection
+
+//     float distance = sqrt((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y));
+//     return distance < distanceThreshold;
+// }
+
+bool Player::isPathClosed() const {
+    if (m_trail.size() < 2) {
+        return false;  // Not enough points to form a closed path
+    }
+
+    // Check if the last rectangle collides with the first rectangle
+    return m_trail.back().collidesWith(&m_trail.front());
 }

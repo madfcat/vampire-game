@@ -1,9 +1,6 @@
 #pragma once
-
 #include "Rectangle.h"
-
 #include <cmath>
-
 #include <memory>
 
 struct InputData;
@@ -38,6 +35,9 @@ public:
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
 
+	void addTrailSegment();
+	bool isPathClosed() const;
+
 private:
     bool    m_isDead = false;
     eDirection m_direction = LEFT;
@@ -45,4 +45,6 @@ private:
     std::unique_ptr<Weapon> m_pWeapon;
 
 	float m_angle;
+	std::vector<Rectangle> m_trail;
+	// bool m_isClosed;
 };
