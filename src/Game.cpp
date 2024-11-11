@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <iostream>
 
 #include "ResourceManager.h"
 #include "InputHandler.h"
@@ -41,11 +40,6 @@ bool Game::initialise()
 		return false;
 	}
 	if (!m_playerTexture.loadFromFile(ResourceManager::getFilePath("player.png")))
-	{
-		std::cerr << "Unable to load texture" << std::endl;
-		return false;
-	}
-	if (!m_gridTexture.loadFromFile(ResourceManager::getFilePath("grid.png")))
 	{
 		std::cerr << "Unable to load texture" << std::endl;
 		return false;
