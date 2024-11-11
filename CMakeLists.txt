@@ -49,7 +49,7 @@ src/*.h
 )
 add_executable(survive ${SOURCES})
 
-target_link_libraries(survive PRIVATE sfml-graphics sfml-audio)
+target_link_libraries(survive PRIVATE sfml-graphics sfml-audio sfml-window sfml-system)
 target_compile_features(survive PRIVATE cxx_std_17)
 
 if(WIN32)
