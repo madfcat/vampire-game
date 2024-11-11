@@ -91,6 +91,7 @@ void Game::update(float deltaTime)
                 m_state = State::WAITING;
                 resetLevel();
             }
+			m_pPlayer->lateUpdate(deltaTime);
         }
         break;
     }

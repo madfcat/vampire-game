@@ -22,7 +22,7 @@ public:
     
     bool initialise();
     void move(InputData inputData, float deltaTime);
-    void attack();
+    // void attack();
     void update(float deltaTime);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -39,6 +39,12 @@ public:
 	bool isPathClosed();
 	bool isPointInsideRectangle(const sf::Vector2f& point, const std::vector<sf::Vector2f>& rectangleCorners) const;
 
+	std::vector<Rectangle> &getTrail() { return m_trail; }
+	bool getIsClosed() { return m_isClosed; }
+	bool checkPath();
+	void eraseTrail();
+	void lateUpdate(float deltaTime);
+
 private:
     bool    m_isDead = false;
     eDirection m_direction = LEFT;
@@ -47,6 +53,6 @@ private:
 
 	float m_angle;
 	std::vector<Rectangle> m_trail;
-	// bool m_isClosed;
+	bool m_isClosed;
 	bool m_hasLeftFirstSquare;
 };

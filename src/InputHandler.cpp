@@ -22,10 +22,10 @@ void GameInput::update(float deltaTime)
         m_pPlayer->move(m_inputData, deltaTime);
     }
 
-    if (m_inputData.m_space)
-    {
-        m_pPlayer->attack();
-    }
+    // if (m_inputData.m_space)
+    // {
+    //     m_pPlayer->attack();
+    // }
 }
 
 void GameInput::onKeyPressed(sf::Keyboard::Key key)
@@ -38,6 +38,17 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     {
         m_inputData.m_movingDown = true;
     }
+    // else if (key == sf::Keyboard::Left)
+    // {
+
+    //     m_inputData.m_movingRight = false;
+    //     m_inputData.m_movingLeft = true;
+    // }
+    // else if (key == sf::Keyboard::Right)
+    // {
+    //     m_inputData.m_movingLeft = false;
+    //     m_inputData.m_movingRight = true;
+    // }
 	if (key == sf::Keyboard::Space)
     {
         if (m_inputData.m_spaceReleased)
@@ -46,14 +57,16 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
         }
         m_inputData.m_spaceReleased = false;
     }
-    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Left)
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Left)
     {
+        m_inputData.m_movingRight = false;
         m_inputData.m_movingLeft = true;
     }
-    // else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Right)
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
+		sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Right)
     {
+        m_inputData.m_movingLeft = false;
         m_inputData.m_movingRight = true;
     }
 
@@ -74,10 +87,20 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     else if (key == sf::Keyboard::Left)
     {
         m_inputData.m_movingLeft = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		{
+			m_inputData.m_movingUp = true;
+        	m_inputData.m_movingRight = true;
+		}
     }
     else if (key == sf::Keyboard::Right)
     {
         m_inputData.m_movingRight = false;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		{
+			m_inputData.m_movingUp = true;
+        	m_inputData.m_movingLeft = true;
+		}
     }
     else if (key == sf::Keyboard::Space)
     {

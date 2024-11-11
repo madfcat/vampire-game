@@ -29,6 +29,7 @@ bool Player::initialise()
     m_sprite.setPosition(getPosition());
 	// m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 
+	m_isClosed = false;
 	m_hasLeftFirstSquare = false;
 
     return true;
@@ -81,9 +82,23 @@ void Player::move(InputData inputData, float deltaTime)
 	addTrailSegment();
 }
 
-void Player::attack()
+// void Player::attack()
+// {
+//     m_pWeapon->setActive(true);
+// }
+
+bool Player::checkPath()
 {
-    m_pWeapon->setActive(true);
+	if (isPathClosed())
+	{
+		m_isClosed = true;
+		std::cout << "Path closed" << std::endl;
+	}
+}
+
+void Player::eraseTrail()
+{
+	m_trail.erase(m_trail.begin(), m_trail.begin() + m_trail.size());
 }
 
 void Player::update(float deltaTime)
@@ -95,10 +110,15 @@ void Player::update(float deltaTime)
         getCenter().x - (m_direction == LEFT ? weaponSize.x : 0.0f),
         getCenter().y - weaponSize.y / 2.0f));
     m_pWeapon->update(deltaTime);
-	if (m_trail.size() > 5 && isPathClosed())
+	checkPath();
+}
+
+void Player::lateUpdate(float deltaTime)
+{
+	if (m_isClosed)
 	{
-		// m_trail.erase(m_trail.begin(), m_trail.begin() + m_trail.size());
-		std::cout << "Path closed" << std::endl;
+		eraseTrail();
+		m_isClosed = false;
 	}
 }
 
@@ -189,13 +209,15 @@ sf::Vector2f Player::rotatePoint(const sf::Vector2f& point, float angle) const
 }
 
 void Player::addTrailSegment() {
+	// std::cout << "addTrailSegment()" << std::endl;
     Rectangle segment(sf::Vector2f(getSize().x, getSize().y), getPosition());
     // segment.setPosition(getPosition());
 	segment.setOrigin(getOrigin());
     segment.setRotation(getRotation());  // Set the rotation to match the player’s rotation
     segment.getRectangleShape().setFillColor(sf::Color(100, 100, 255, 150));  // Semi-transparent color for trail
 	segment.getRectangleShape().setRotation(getRotation());
-    m_trail.push_back(segment);
+	if (m_trail.size() == 0 || segment.getPosition() != m_trail.back().getPosition())
+    	m_trail.push_back(segment);
 }
 
 bool Player::isPathClosed() {
@@ -215,17 +237,18 @@ bool Player::isPathClosed() {
     if (!firstSquareBounds.contains(getPosition() + sf::Vector2f(0, getSize().y / 2))) {
         m_hasLeftFirstSquare = true;  // Player's origin is outside the first square, so it has left
     }
-	std::cout << "m_hasLeftFirstSquare: " << m_hasLeftFirstSquare << std::endl;
+	// std::cout << "m_hasLeftFirstSquare: " << m_hasLeftFirstSquare << std::endl;
 
 	bool enteredFirstSquareAgain = false;
 	if (m_hasLeftFirstSquare && firstSquareBounds.contains(getPosition() + sf::Vector2f(0, getSize().y / 2)))
 	{
 		enteredFirstSquareAgain = true;
 	}
-	std::cout << "enteredFirstSquareAgain: " << enteredFirstSquareAgain << std::endl;
+	// std::cout << "enteredFirstSquareAgain: " << enteredFirstSquareAgain << std::endl;
 
     // If we've left the first square, check if we've returned to it
     if (enteredFirstSquareAgain) {
+		m_hasLeftFirstSquare = false;
 		return true;
         // // Compare the player's position (lastPosition) to the first square's position
         // float distance = sqrt((lastPosition.x - firstPosition.x) * (lastPosition.x - firstPosition.x) +
