@@ -39,7 +39,7 @@ public:
 	bool getIsClosed() { return m_isClosed; }
 	bool checkPath();
 	void eraseTrail();
-	void lateUpdate(float deltaTime);
+	void lateUpdate();
 
 private:
 	bool m_isDead = false;

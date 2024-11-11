@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 #include "Player.h"
+#include "Game.h"
 
 GameInput::GameInput(Game *pGame, Player *pPlayer) : m_pGame(pGame), m_pPlayer(pPlayer)
 {
@@ -46,17 +47,21 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
 		}
 		m_inputData.m_spaceReleased = false;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
-		sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Left)
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) ||
+		(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Left))
 	{
 		m_inputData.m_movingRight = false;
 		m_inputData.m_movingLeft = true;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-		sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Right)
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) ||
+		(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Right))
 	{
 		m_inputData.m_movingLeft = false;
 		m_inputData.m_movingRight = true;
+	}
+	if (key == sf::Keyboard::LShift)
+	{
+		m_pGame->getWeeeSound()->play();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
 	{

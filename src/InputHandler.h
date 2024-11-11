@@ -1,6 +1,6 @@
 #pragma once
-
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Audio.hpp>
 
 class Player;
 class Game;

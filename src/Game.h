@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Audio.hpp>
 #include <memory>
 #include "Constants.h"
 
@@ -41,6 +42,10 @@ public:
 	Player *getPlayer() const;
 	sf::Texture *getPlayerTexture() { return &m_playerTexture; }
 	sf::Texture *getVampireTexture() { return &m_vampTexture; }
+	sf::Sound *getWeeeSound() { return &m_weeeSound; }
+	sf::Sound *getDeathSound() { return &m_deathSound2; }
+	sf::Sound *getDeathSound2() { return &m_deathSound2; }
+	sf::Sound *getPlayerDeathSound() { return &m_playerDeathSound; }
 
 	void vampireSpawner(float deltaTime);
 	void addEnemiesKilled(int n);
@@ -64,4 +69,14 @@ private:
 	sf::Font m_font;
 	sf::Texture m_vampTexture;
 	sf::Texture m_playerTexture;
+	sf::Texture m_gridTexture;
+	sf::SoundBuffer m_weeeSoundBuffer;
+	sf::Sound m_weeeSound;
+	sf::SoundBuffer m_deathSoundBuffer;
+	sf::Sound m_deathSound;
+	sf::SoundBuffer m_deathSoundBuffer2;
+	sf::Sound m_deathSound2;
+	sf::SoundBuffer m_playerDeathBuffer;
+	sf::Sound m_playerDeathSound;
+	sf::Music m_backgroundMusic;
 };

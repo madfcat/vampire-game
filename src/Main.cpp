@@ -9,6 +9,7 @@
 
 int main(int argc, char *argv[])
 {
+	(void)argc;
 	// ResourceManager Must be Instantiated here -- DO NOT CHANGE
 	ResourceManager::init(argv[0]);
 

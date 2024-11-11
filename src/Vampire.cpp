@@ -21,6 +21,8 @@ Vampire::Vampire(Game *game, sf::Vector2f position) : Rectangle(sf::Vector2f(Vam
 
 void Vampire::update(float deltaTime)
 {
+	int randomChoice = rand() % 2;
+
 	if (m_isKilled)
 		return;
 
@@ -29,20 +31,19 @@ void Vampire::update(float deltaTime)
 	if (isEnemyBetweenTrailPoints(pPlayer))
 	{
 		m_pGame->addEnemiesKilled(1);
-		std::cout << "Killed: "<< m_pGame->getEnemiesKilled() << std::endl;
+		std::cout << "Killed: " << m_pGame->getEnemiesKilled() << std::endl;
 		setIsKilled(true);
+		if (randomChoice == 0)
+			m_pGame->getDeathSound()->play();
+		else
+			m_pGame->getDeathSound2()->play();
 		return;
 	}
 
-	// Collides with trail
-	// if (collidesWith(pPlayer->getWeapon()))
-	// {
-	//     setIsKilled(true);
-	//     return;
-	// }
-
-	if (collidesWith(pPlayer)) {
+	if (collidesWith(pPlayer))
+	{
 		pPlayer->setIsDead(true);
+		m_pGame->getPlayerDeathSound()->play();
 	}
 
 	sf::Vector2f playerCenter = pPlayer->getCenter();

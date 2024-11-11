@@ -51,7 +51,7 @@ src/*.h
 )
 add_executable(main ${SOURCES})
 
-target_link_libraries(main PRIVATE sfml-graphics)
+target_link_libraries(main PRIVATE sfml-graphics sfml-audio)
 target_compile_features(main PRIVATE cxx_std_17)
 
 if(WIN32)

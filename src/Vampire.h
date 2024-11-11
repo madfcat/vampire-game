@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rectangle.h"
+#include <cstdlib>
 
 class Game;
 class Player;

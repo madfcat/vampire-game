@@ -34,9 +34,6 @@ bool Player::initialise()
 
 void Player::move(InputData inputData, float deltaTime)
 {
-	float xSpeed = 0.0f;
-	float ySpeed = 0.0f;
-
 	m_angle -= RotationSpeed * deltaTime * inputData.m_movingLeft;
 	m_angle += RotationSpeed * deltaTime * inputData.m_movingRight;
 
@@ -84,7 +81,9 @@ bool Player::checkPath()
 	{
 		m_isClosed = true;
 		std::cout << "Path closed" << std::endl;
+		return true;
 	}
+	return false;
 }
 
 void Player::eraseTrail()
@@ -98,7 +97,7 @@ void Player::update(float deltaTime)
 	checkPath();
 }
 
-void Player::lateUpdate(float deltaTime)
+void Player::lateUpdate()
 {
 	if (m_isClosed)
 	{
@@ -116,80 +115,7 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
 	// Draw the player sprite
 	Rectangle::draw(target, states);
-
-	// drawBoundingBox(static_cast<sf::RenderWindow &>(target));
 }
-
-// void Player::drawBoundingBox(sf::RenderWindow &window) const
-// {
-// 	// Get the global bounds of the sprite (includes scaling, rotation, etc.)
-// 	sf::FloatRect spriteBounds = getRotatedBounds();
-
-// 	// Create a rectangle to represent the bounding box
-// 	sf::RectangleShape boundingBox(sf::Vector2f(spriteBounds.width, spriteBounds.height));
-
-// 	// Set the position of the bounding box (align it with the sprite)
-// 	boundingBox.setPosition(spriteBounds.left, spriteBounds.top);
-
-// 	// Set the color of the bounding box (red for visibility)
-// 	boundingBox.setFillColor(sf::Color::Transparent); // Transparent fill
-// 	boundingBox.setOutlineColor(sf::Color::Red);	  // Red outline for the bounding box
-// 	boundingBox.setOutlineThickness(2);				  // Set outline thickness for visibility
-
-// 	// Draw the bounding box
-// 	window.draw(boundingBox);
-// }
-
-// sf::FloatRect Player::getRotatedBounds() const
-// {
-// 	// Get the center of the sprite
-// 	sf::Vector2f center = m_sprite.getPosition();
-
-// 	// Get the 4 corners of the sprite in its local coordinate system
-// 	sf::Vector2f topLeft(-m_sprite.getLocalBounds().width / 2, -m_sprite.getLocalBounds().height / 2);
-// 	sf::Vector2f topRight(m_sprite.getLocalBounds().width / 2, -m_sprite.getLocalBounds().height / 2);
-// 	sf::Vector2f bottomLeft(-m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
-// 	sf::Vector2f bottomRight(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
-
-// 	// Get the rotation of the sprite
-// 	float angle = m_sprite.getRotation();
-
-// 	// Rotate each corner point based on the sprite's rotation
-// 	topLeft = rotatePoint(topLeft, angle);
-// 	topRight = rotatePoint(topRight, angle);
-// 	bottomLeft = rotatePoint(bottomLeft, angle);
-// 	bottomRight = rotatePoint(bottomRight, angle);
-
-// 	// Translate the rotated points back to the global position of the sprite
-// 	topLeft += center;
-// 	topRight += center;
-// 	bottomLeft += center;
-// 	bottomRight += center;
-
-// 	// Calculate the bounding box of the rotated sprite
-// 	float minX = std::min({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x});
-// 	float maxX = std::max({topLeft.x, topRight.x, bottomLeft.x, bottomRight.x});
-// 	float minY = std::min({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y});
-// 	float maxY = std::max({topLeft.y, topRight.y, bottomLeft.y, bottomRight.y});
-
-// 	// Return the bounding box as a FloatRect
-// 	return sf::FloatRect(minX, minY, maxX - minX, maxY - minY);
-// }
-
-// sf::Vector2f Player::rotatePoint(const sf::Vector2f &point, float angle) const
-// {
-// 	// Convert angle to radians
-// 	float radians = angle * M_PI / 180.f;
-
-// 	// Rotate the point using the 2D rotation matrix
-// 	float cosAngle = std::cos(radians);
-// 	float sinAngle = std::sin(radians);
-
-// 	// Apply rotation
-// 	return sf::Vector2f(
-// 		cosAngle * point.x - sinAngle * point.y,
-// 		sinAngle * point.x + cosAngle * point.y);
-// }
 
 void Player::addTrailSegment()
 {

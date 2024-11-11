@@ -45,6 +45,51 @@ bool Game::initialise()
 		std::cerr << "Unable to load texture" << std::endl;
 		return false;
 	}
+	if (!m_gridTexture.loadFromFile(ResourceManager::getFilePath("grid.png")))
+	{
+		std::cerr << "Unable to load texture" << std::endl;
+		return false;
+	}
+	if (!m_weeeSoundBuffer.loadFromFile(ResourceManager::getFilePath("weee.ogg")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	else
+		m_weeeSound.setBuffer(m_weeeSoundBuffer);
+
+	if (!m_deathSoundBuffer.loadFromFile(ResourceManager::getFilePath("death.ogg")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	else
+		m_deathSound.setBuffer(m_deathSoundBuffer);
+
+	if (!m_deathSoundBuffer2.loadFromFile(ResourceManager::getFilePath("death2.ogg")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	else
+		m_deathSound2.setBuffer(m_deathSoundBuffer2);
+
+	if (!m_playerDeathBuffer.loadFromFile(ResourceManager::getFilePath("playerdeath.ogg")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	else
+		m_playerDeathSound.setBuffer(m_playerDeathBuffer);
+
+	if (!m_backgroundMusic.openFromFile(ResourceManager::getFilePath("loop.ogg")))
+	{
+		std::cerr << "Error: Could not load music!" << std::endl;
+		return false;
+	}
+
+	m_backgroundMusic.setLoop(true);
+	m_backgroundMusic.play();
 
 	resetLevel();
 	return true;
@@ -89,12 +134,12 @@ void Game::update(float deltaTime)
 			m_state = State::WAITING;
 			resetLevel();
 		}
-		m_pPlayer->lateUpdate(deltaTime);
+		m_pPlayer->lateUpdate();
 	}
 	break;
 	}
 
-	int i = 0;
+	unsigned long i = 0;
 	while (i < m_pVampires.size())
 	{
 		if (m_pVampires[i]->isKilled())
@@ -114,7 +159,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
 		sf::Text startText;
 		startText.setFont(m_font);
-		startText.setString("Game Start!\n\nUP to move\nLEFT, RIGHT to turn\nShift to close path\n\nCatch enemies with the closed trail!");
+		startText.setString("Game is about to start... Prepare!\n\nUP to move\nLEFT, RIGHT to turn\nShift to close path\n\nCatch enemies with the closed trail!");
 		startText.setFillColor(sf::Color::White);
 		startText.setPosition(80.0f, 80.0f);
 		startText.setStyle(sf::Text::Bold);
