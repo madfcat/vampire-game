@@ -34,7 +34,7 @@ public:
 	std::vector<sf::Vector2f> getCorners() const;
 	std::vector<sf::Vector2f> getAxes(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners) const;
 	bool projectionsOverlap(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners, const sf::Vector2f& axis) const;
-	sf::RectangleShape &getRectangelShape() { return m_rectangleShape; }
+	sf::RectangleShape &getRectangleShape() { return m_rectangleShape; }
 
 protected:
     sf::Sprite m_sprite;

@@ -36,7 +36,8 @@ public:
     Weapon* getWeapon() { return m_pWeapon.get(); }
 
 	void addTrailSegment();
-	bool isPathClosed() const;
+	bool isPathClosed();
+	bool isPointInsideRectangle(const sf::Vector2f& point, const std::vector<sf::Vector2f>& rectangleCorners) const;
 
 private:
     bool    m_isDead = false;
@@ -47,4 +48,5 @@ private:
 	float m_angle;
 	std::vector<Rectangle> m_trail;
 	// bool m_isClosed;
+	bool m_hasLeftFirstSquare;
 };

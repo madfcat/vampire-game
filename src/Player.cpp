@@ -29,6 +29,8 @@ bool Player::initialise()
     m_sprite.setPosition(getPosition());
 	// m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2, m_sprite.getLocalBounds().height / 2);
 
+	m_hasLeftFirstSquare = false;
+
     return true;
 }
 
@@ -191,28 +193,56 @@ void Player::addTrailSegment() {
     // segment.setPosition(getPosition());
 	segment.setOrigin(getOrigin());
     segment.setRotation(getRotation());  // Set the rotation to match the player’s rotation
-    segment.getRectangelShape().setFillColor(sf::Color(100, 100, 255, 150));  // Semi-transparent color for trail
-	segment.getRectangelShape().setRotation(getRotation());
+    segment.getRectangleShape().setFillColor(sf::Color(100, 100, 255, 150));  // Semi-transparent color for trail
+	segment.getRectangleShape().setRotation(getRotation());
     m_trail.push_back(segment);
 }
 
-// bool Player::isPathClosed() const
-// {
-//     if (m_trail.size() < 3) return false;  // Not enough segments for a loop
-
-//     const sf::Vector2f& start = m_trail.front().getPosition();
-//     const sf::Vector2f& end = m_trail.back().getPosition();
-//     float distanceThreshold = 10.0f;  // Example threshold for closure detection
-
-//     float distance = sqrt((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y));
-//     return distance < distanceThreshold;
-// }
-
-bool Player::isPathClosed() const {
+bool Player::isPathClosed() {
+    // Ensure we have at least 2 segments to start
     if (m_trail.size() < 2) {
-        return false;  // Not enough points to form a closed path
+        return false;  // Not enough segments for a loop
     }
 
-    // Check if the last rectangle collides with the first rectangle
-    return m_trail.back().collidesWith(&m_trail.front());
+    // Get the position of the first trail square (using m_trail[0])
+    const sf::Vector2f& firstPosition = m_trail.front().getPosition();
+    const sf::Vector2f& lastPosition = m_trail.back().getPosition();
+
+    // Get the global bounds of the first square
+    sf::FloatRect firstSquareBounds = const_cast<Rectangle&>(m_trail.front()).getRectangleShape().getGlobalBounds();
+
+    // Check if the player's current position (origin) is inside the first square's bounds
+    if (!firstSquareBounds.contains(getPosition() + sf::Vector2f(0, getSize().y / 2))) {
+        m_hasLeftFirstSquare = true;  // Player's origin is outside the first square, so it has left
+    }
+	std::cout << "m_hasLeftFirstSquare: " << m_hasLeftFirstSquare << std::endl;
+
+	bool enteredFirstSquareAgain = false;
+	if (m_hasLeftFirstSquare && firstSquareBounds.contains(getPosition() + sf::Vector2f(0, getSize().y / 2)))
+	{
+		enteredFirstSquareAgain = true;
+	}
+	std::cout << "enteredFirstSquareAgain: " << enteredFirstSquareAgain << std::endl;
+
+    // If we've left the first square, check if we've returned to it
+    if (enteredFirstSquareAgain) {
+		return true;
+        // // Compare the player's position (lastPosition) to the first square's position
+        // float distance = sqrt((lastPosition.x - firstPosition.x) * (lastPosition.x - firstPosition.x) +
+        //                       (lastPosition.y - firstPosition.y) * (lastPosition.y - firstPosition.y));
+        
+        // float distanceThreshold = 10.0f;  // Adjust this threshold as necessary
+        // return distance < distanceThreshold;  // Path is closed if we're back near the first square
+    }
+
+    return false;  // Path is not closed yet
 }
+
+// bool Player::isPathClosed() const {
+//     if (m_trail.size() < 200) {
+//         return false;  // Not enough points to form a closed path
+//     }
+
+//     // Check if the last rectangle collides with the first rectangle
+//     return m_trail.back().collidesWith(&m_trail.front());
+// }

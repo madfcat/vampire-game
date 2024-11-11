@@ -173,7 +173,7 @@ std::vector<sf::Vector2f> Rectangle::getCorners() const
     };
 
     // Convert the rotation to radians
-    float angleRad = rotation * (3.14159265f / 180.0f);
+    float angleRad = rotation * (M_PI / 180.0f);
 
     // Apply rotation and add the center position to each corner
     for (int i = 0; i < 4; ++i) {
