@@ -166,21 +166,21 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		timerText.setFillColor(sf::Color::White);
 		timerText.setStyle(sf::Text::Bold);
 		timerText.setString("Time: " + std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
-		timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.03, 20));
+		timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().width) * 0.03, 20));
 		target.draw(timerText);
 		sf::Text enemiesKilledText;
 		enemiesKilledText.setFont(m_font);
 		enemiesKilledText.setFillColor(sf::Color::White);
 		enemiesKilledText.setStyle(sf::Text::Bold);
 		enemiesKilledText.setString("Score: " + std::to_string((int)m_enemiesKilledCount) + " / " + std::to_string((int)m_spawnCount));
-		enemiesKilledText.setPosition(sf::Vector2f((ScreenWidth - enemiesKilledText.getLocalBounds().getSize().x) * 0.03, 60));
+		enemiesKilledText.setPosition(sf::Vector2f((ScreenWidth - enemiesKilledText.getLocalBounds().width) * 0.03, 60));
 		target.draw(enemiesKilledText);
 		sf::Text bestScore;
 		bestScore.setFont(m_font);
 		bestScore.setFillColor(sf::Color::White);
 		bestScore.setStyle(sf::Text::Bold);
 		bestScore.setString("Best score: " + std::to_string((int)m_bestScore));
-		bestScore.setPosition(sf::Vector2f((ScreenWidth - bestScore.getLocalBounds().getSize().x) * 0.03, 100));
+		bestScore.setPosition(sf::Vector2f((ScreenWidth - bestScore.getLocalBounds().width) * 0.03, 100));
 		target.draw(bestScore);
 	}
 
