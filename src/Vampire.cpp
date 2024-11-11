@@ -49,8 +49,9 @@ void Vampire::update(float deltaTime)
 	sf::Vector2f direction = VecNormalized(playerCenter - getCenter());
 	direction *= VampireSpeed * deltaTime;
 	sf::Transformable::move(direction);
-	m_rectangleShape.setPosition(getPosition().x, getPosition().y);
-	m_rectangleShape.setSize(getSize());
+	// m_rectangleShape.setPosition(getPosition().x, getPosition().y);
+	// m_rectangleShape.setSize(getSize());
+	m_rectangleShape.setPosition(-getSize().x, -getSize().y);
 	m_sprite.setPosition(getPosition());
 }
 

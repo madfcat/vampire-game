@@ -3,8 +3,8 @@
 const int ScreenWidth = 1600;
 const int ScreenHeight = 1200;
 
-const float PlayerHeight = 50.0f;
-const float PlayerWidth = 50.0f;
+const float PlayerHeight = 45.0f;
+const float PlayerWidth = 45.0f;
 const float PlayerSpeed = 255.0f;
 
 const float VampireHeight = 32.0f;
