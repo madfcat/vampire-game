@@ -2,6 +2,8 @@
 
 #include "Rectangle.h"
 
+#include <cmath>
+
 #include <memory>
 
 struct InputData;
@@ -27,6 +29,10 @@ public:
     void update(float deltaTime);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+	void drawBoundingBox(sf::RenderWindow& window) const;
+	sf::FloatRect getRotatedBounds() const;
+	sf::Vector2f rotatePoint(const sf::Vector2f& point, float angle) const;
+
     bool isDead() const { return m_isDead; }
     void setIsDead(bool isDead) { m_isDead = isDead; }
 
@@ -37,4 +43,6 @@ private:
     eDirection m_direction = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
+
+	float m_angle;
 };

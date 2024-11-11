@@ -12,7 +12,8 @@
 #include "Vampire.h"
 
 Game::Game() :
-    m_state(State::WAITING),
+    // m_state(State::WAITING),
+    m_state(State::ACTIVE),
     m_pClock(std::make_unique<sf::Clock>()),
     m_pPlayer(std::make_unique<Player>(this)),
     m_vampireCooldown(2.0f),

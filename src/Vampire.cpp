@@ -10,11 +10,15 @@ Vampire::Vampire(Game* game, sf::Vector2f position) :
     m_pGame(game)
 {
     setPosition(position);
-    setOrigin(sf::Vector2f(0.0f, 0.0f));
+	setColor(sf::Color::Blue);
+    // setOrigin(sf::Vector2f(0.0f, 0.0f));
+    setOrigin(sf::Vector2f(VampireWidth / 2, VampireHeight / 2));
     setIsKilled(false);
 
     m_sprite.setTexture(*m_pGame->getVampireTexture());
-    m_sprite.setScale(2.0f, 2.0f);
+	sf::Vector2u textureSize = (*m_pGame->getVampireTexture()).getSize();
+	m_sprite.setOrigin(textureSize.x / 2, textureSize.y / 2);
+    m_sprite.setScale(VampireWidth / textureSize.x, VampireWidth / textureSize.y);
 }
 
 void Vampire::update(float deltaTime)
@@ -37,5 +41,7 @@ void Vampire::update(float deltaTime)
     sf::Vector2f direction = VecNormalized(playerCenter - getCenter());
     direction *= VampireSpeed * deltaTime;
     sf::Transformable::move(direction);
+	m_rectangleShape.setPosition(getPosition().x, getPosition().y);
+	m_rectangleShape.setSize(getSize());
     m_sprite.setPosition(getPosition());
 }

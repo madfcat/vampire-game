@@ -3,6 +3,9 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
+#include <cmath>
+#include "Constants.h"
+#include <iostream>
 
 class Rectangle : public sf::Drawable, public sf::Transformable
 {
@@ -18,11 +21,18 @@ public:
     void setSize(sf::Vector2f size) { m_size = size; }
     sf::Vector2f getSize() const { return m_size; }
 
-    void setColor(sf::Color color) { m_color = color; }
+	sf::FloatRect getRotatedBounds() const;
+	sf::Vector2f rotatePoint(const sf::Vector2f& point, float angle) const;
+
+    void setColor(sf::Color color) { 
+		m_color = color;
+		m_rectangleShape.setFillColor(color);
+	 }
     sf::Color getColor() const { return m_color; }
 
 protected:
     sf::Sprite m_sprite;
+	sf::RectangleShape m_rectangleShape;
 
 private:
     sf::Color m_color = sf::Color::White;

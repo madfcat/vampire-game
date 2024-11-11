@@ -26,7 +26,7 @@ public:
     void update(float deltaTime);
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
-    
+    void handleContinousInput();
     
 private:
     InputData m_inputData;

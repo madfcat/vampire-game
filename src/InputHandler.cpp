@@ -18,6 +18,7 @@ void GameInput::update(float deltaTime)
 {
     if (m_inputData.hasInputs())
     {
+		// handleContinousInput();
         m_pPlayer->move(m_inputData, deltaTime);
     }
 
@@ -37,15 +38,7 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     {
         m_inputData.m_movingDown = true;
     }
-    else if (key == sf::Keyboard::Left)
-    {
-        m_inputData.m_movingLeft = true;
-    }
-    else if (key == sf::Keyboard::Right)
-    {
-        m_inputData.m_movingRight = true;
-    }
-    else if (key == sf::Keyboard::Space)
+	if (key == sf::Keyboard::Space)
     {
         if (m_inputData.m_spaceReleased)
         {
@@ -53,6 +46,17 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
         }
         m_inputData.m_spaceReleased = false;
     }
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Left)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        m_inputData.m_movingLeft = true;
+    }
+    // else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && key == sf::Keyboard::Right)
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        m_inputData.m_movingRight = true;
+    }
+
 }
 
 void GameInput::onKeyReleased(sf::Keyboard::Key key)
@@ -60,6 +64,8 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     if (key == sf::Keyboard::Up)
     {
         m_inputData.m_movingUp = false;
+        m_inputData.m_movingLeft = false;
+        m_inputData.m_movingRight = false;
     }
     else if (key == sf::Keyboard::Down)
     {

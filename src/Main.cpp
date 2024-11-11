@@ -47,9 +47,7 @@ int main(int argc, char* argv[])
             }
         }
         
-        sf::Time elapsedTime = clock.getElapsedTime();
-        clock.restart();
-        pGame->update(elapsedTime.asSeconds());
+        pGame->update(clock.restart().asSeconds());
         
         // clear the window with black color
         window.clear(sf::Color::Black);
