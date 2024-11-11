@@ -15,8 +15,6 @@ Rectangle::Rectangle(sf::Vector2f size, sf::Vector2f position) : m_size(size)
 
 	// Set the color of the rectangle
 	m_rectangleShape.setFillColor(m_color); // Set the color (default is white)
-
-	// sf::Transformable::setPosition(position);
 }
 
 

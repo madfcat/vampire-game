@@ -28,17 +28,6 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
 	{
 		m_inputData.m_movingDown = true;
 	}
-	// else if (key == sf::Keyboard::Left)
-	// {
-
-	//     m_inputData.m_movingRight = false;
-	//     m_inputData.m_movingLeft = true;
-	// }
-	// else if (key == sf::Keyboard::Right)
-	// {
-	//     m_inputData.m_movingLeft = false;
-	//     m_inputData.m_movingRight = true;
-	// }
 	if (key == sf::Keyboard::Space)
 	{
 		if (m_inputData.m_spaceReleased)

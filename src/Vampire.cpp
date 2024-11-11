@@ -9,7 +9,6 @@ Vampire::Vampire(Game *game, sf::Vector2f position) : Rectangle(sf::Vector2f(Vam
 {
 	setPosition(position);
 	setColor(sf::Color::Blue);
-	// setOrigin(sf::Vector2f(0.0f, 0.0f));
 	setOrigin(sf::Vector2f(VampireWidth / 2, VampireHeight / 2));
 	setIsKilled(false);
 
@@ -31,7 +30,6 @@ void Vampire::update(float deltaTime)
 	if (isEnemyBetweenTrailPoints(pPlayer))
 	{
 		m_pGame->addEnemiesKilled(1);
-		std::cout << "Killed: " << m_pGame->getEnemiesKilled() << std::endl;
 		setIsKilled(true);
 		if (randomChoice == 0)
 			m_pGame->getDeathSound()->play();
@@ -50,8 +48,6 @@ void Vampire::update(float deltaTime)
 	sf::Vector2f direction = VecNormalized(playerCenter - getCenter());
 	direction *= VampireSpeed * deltaTime;
 	sf::Transformable::move(direction);
-	// m_rectangleShape.setPosition(getPosition().x, getPosition().y);
-	// m_rectangleShape.setSize(getSize());
 	m_rectangleShape.setPosition(-getSize().x, -getSize().y);
 	m_sprite.setPosition(getPosition());
 }
@@ -105,22 +101,3 @@ bool Vampire::isEnemyBetweenTrailPoints(Player *pPlayer)
 
 	return false;
 }
-
-// bool Vampire::isEnemyBetweenTrailPoints(const Player* pPlayer) const
-// {
-// 	const auto & trail = pPlayer->getTrail();
-// 	if (trail.size() < 2)
-// 		return false;
-//     for (size_t i = 0; i < trail.size() - 1; ++i) {
-//         const sf::Vector2f& point1 = trail[i].getPosition();
-//         const sf::Vector2f& point2 = trail[i + 1].getPosition();
-
-//         // Check if the enemy's x and y coordinates are between the x/y of the two points
-//         if ((getPosition().x > std::min(point1.x, point2.x) && getPosition().x < std::max(point1.x, point2.x)) &&
-//             (getPosition().y > std::min(point1.y, point2.y) && getPosition().y < std::max(point1.y, point2.y))) {
-//             return true;
-//         }
-//     }
-
-//     return false;
-// }

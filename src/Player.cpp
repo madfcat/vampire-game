@@ -8,7 +8,6 @@ Player::Player(Game *pGame) : Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight))
 							  m_pGame(pGame),
 							  m_angle(-M_PI / 2)
 {
-	// setOrigin(sf::Vector2f(0.0f, 0.0f));
 	setOrigin(sf::Vector2f(PlayerWidth / 2, PlayerHeight / 2));
 	m_rectangleShape.setPosition(-getSize().x, -getSize().y);
 }
@@ -48,11 +47,9 @@ void Player::move(InputData inputData, float deltaTime)
 	{
 		float speed = PlayerSpeed * deltaTime;
 		m_sprite.setRotation(m_angle * 180 / M_PI + 90);
-		// m_sprite.setRotation(m_angle * 180 / M_PI);
 		sf::Transformable::move(direction * speed);
 		setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth), getPosition().y);
 		setRotation(m_angle * 180 / M_PI);
-		// m_rectangleShape.setPosition(getPosition().x, getPosition().y);
 		m_rectangleShape.setSize(getSize());
 		m_rectangleShape.setRotation(getRotation());
 	}
@@ -80,7 +77,6 @@ bool Player::checkPath()
 	if (isPathClosed())
 	{
 		m_isClosed = true;
-		std::cout << "Path closed" << std::endl;
 		return true;
 	}
 	return false;
@@ -163,5 +159,5 @@ bool Player::isPathClosed()
 		return true;
 	}
 
-	return false; // Path is not closed yet
+	return false;
 }
