@@ -7,8 +7,8 @@ const float PlayerHeight = 50.0f;
 const float PlayerWidth = 50.0f;
 const float PlayerSpeed = 155.0f;
 
-const float VampireHeight = 50.0f;
-const float VampireWidth = 50.0f;
+const float VampireHeight = 32.0f;
+const float VampireWidth = 32.0f;
 // const float VampireSpeed = 100.0f;
 const float VampireSpeed = 20.0f;
 

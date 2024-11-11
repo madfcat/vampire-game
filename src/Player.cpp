@@ -47,7 +47,7 @@ void Player::move(InputData inputData, float deltaTime)
 
 	if (inputData.m_movingUp) {
         float speed = PlayerSpeed * deltaTime;
-		// m_sprite.setRotation(m_angle * 180 / M_PI + 90);
+		m_sprite.setRotation(m_angle * 180 / M_PI + 90);
 		// m_sprite.setRotation(m_angle * 180 / M_PI);
         sf::Transformable::move(direction * speed);
     	setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth), getPosition().y);

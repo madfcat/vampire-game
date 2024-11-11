@@ -6,6 +6,7 @@
 #include <cmath>
 #include "Constants.h"
 #include <iostream>
+#include <vector>
 
 class Rectangle : public sf::Drawable, public sf::Transformable
 {
@@ -29,6 +30,10 @@ public:
 		m_rectangleShape.setFillColor(color);
 	 }
     sf::Color getColor() const { return m_color; }
+
+	std::vector<sf::Vector2f> getCorners() const;
+	std::vector<sf::Vector2f> getAxes(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners) const;
+	bool projectionsOverlap(const std::vector<sf::Vector2f>& thisCorners, const std::vector<sf::Vector2f>& otherCorners, const sf::Vector2f& axis) const;
 
 protected:
     sf::Sprite m_sprite;
