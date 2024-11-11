@@ -78,8 +78,12 @@ void Player::move(InputData inputData, float deltaTime)
         else if (inputData.m_movingLeft == false && inputData.m_movingRight == true)
             m_direction = RIGHT;
     }
-
-	addTrailSegment();
+	// Update the trail
+	m_trailTimer += deltaTime;
+	if (m_trailTimer >= m_trailInterval) {
+		addTrailSegment();
+		m_trailTimer = 0.0f;  // Reset timer after adding a segment
+	}
 }
 
 // void Player::attack()

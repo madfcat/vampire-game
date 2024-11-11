@@ -55,4 +55,7 @@ private:
 	std::vector<Rectangle> m_trail;
 	bool m_isClosed;
 	bool m_hasLeftFirstSquare;
+
+	float m_trailTimer = 0.0f;  // Timer for trail segment creation
+    float m_trailInterval = 0.1f;  // Interval for adding new trail segments (in seconds)
 };
