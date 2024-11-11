@@ -10,8 +10,7 @@
 #include "Rectangle.h"
 #include "Vampire.h"
 
-Game::Game() : // m_state(State::WAITING),
-			   m_state(State::ACTIVE),
+Game::Game() : m_state(State::WAITING),
 			   m_pClock(std::make_unique<sf::Clock>()),
 			   m_pPlayer(std::make_unique<Player>(this)),
 			   m_vampireCooldown(2.0f),
@@ -54,7 +53,8 @@ bool Game::initialise()
 void Game::resetLevel()
 {
 	m_pVampires.clear();
-
+	m_spawnCount = 0;
+	m_enemiesKilledCount = 0;
 	m_pPlayer->initialise();
 	m_pClock->restart();
 }
@@ -114,7 +114,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	{
 		sf::Text startText;
 		startText.setFont(m_font);
-		startText.setString("Game Start!");
+		startText.setString("Game Start!\n\nUP to move\nLEFT, RIGHT to turn\nShift to close path\n\nCatch enemies with the closed trail!");
 		startText.setFillColor(sf::Color::White);
 		startText.setPosition(80.0f, 80.0f);
 		startText.setStyle(sf::Text::Bold);
@@ -126,16 +126,23 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		timerText.setFont(m_font);
 		timerText.setFillColor(sf::Color::White);
 		timerText.setStyle(sf::Text::Bold);
-		timerText.setString(std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
-		timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
+		timerText.setString("Time: " + std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
+		timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.03, 20));
 		target.draw(timerText);
 		sf::Text enemiesKilledText;
 		enemiesKilledText.setFont(m_font);
 		enemiesKilledText.setFillColor(sf::Color::White);
 		enemiesKilledText.setStyle(sf::Text::Bold);
-		enemiesKilledText.setString(std::to_string((int)m_enemiesKilled) + " / " + std::to_string((int)m_spawnCount));
-		enemiesKilledText.setPosition(sf::Vector2f((ScreenWidth - enemiesKilledText.getLocalBounds().getSize().x) * 0.8, 20));
+		enemiesKilledText.setString("Score: " + std::to_string((int)m_enemiesKilledCount) + " / " + std::to_string((int)m_spawnCount));
+		enemiesKilledText.setPosition(sf::Vector2f((ScreenWidth - enemiesKilledText.getLocalBounds().getSize().x) * 0.03, 60));
 		target.draw(enemiesKilledText);
+		sf::Text bestScore;
+		bestScore.setFont(m_font);
+		bestScore.setFillColor(sf::Color::White);
+		bestScore.setStyle(sf::Text::Bold);
+		bestScore.setString("Best score: " + std::to_string((int)m_bestScore));
+		bestScore.setPosition(sf::Vector2f((ScreenWidth - bestScore.getLocalBounds().getSize().x) * 0.03, 100));
+		target.draw(bestScore);
 	}
 
 	// Draw player.
@@ -194,4 +201,11 @@ void Game::vampireSpawner(float deltaTime)
 		m_nextVampireCooldown -= 0.1f;
 	}
 	m_vampireCooldown = m_nextVampireCooldown;
+}
+
+void Game::addEnemiesKilled(int n)
+{
+	m_enemiesKilledCount += n;
+	if (m_enemiesKilledCount > m_bestScore)
+		m_bestScore = m_enemiesKilledCount;
 }

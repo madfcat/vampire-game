@@ -43,8 +43,8 @@ public:
 	sf::Texture *getVampireTexture() { return &m_vampTexture; }
 
 	void vampireSpawner(float deltaTime);
-	void addEnemiesKilled(int n) { m_enemiesKilled += n; }
-	int getEnemiesKilled() { return m_enemiesKilled; }
+	void addEnemiesKilled(int n);
+	int getEnemiesKilled() { return m_enemiesKilledCount; }
 
 private:
 	std::unique_ptr<Player> m_pPlayer;
@@ -57,8 +57,9 @@ private:
 
 	float m_vampireCooldown = 0.0f;
 	float m_nextVampireCooldown = 2.0f;
-	int 		m_spawnCount = 0;
-	int 	m_enemiesKilled = 0;
+	int m_spawnCount = 0;
+	int m_enemiesKilledCount = 0;
+	int m_bestScore = 0;
 
 	sf::Font m_font;
 	sf::Texture m_vampTexture;

@@ -10,14 +10,17 @@ Player::Player(Game *pGame) : Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight))
 {
 	// setOrigin(sf::Vector2f(0.0f, 0.0f));
 	setOrigin(sf::Vector2f(PlayerWidth / 2, PlayerHeight / 2));
+	m_rectangleShape.setPosition(-getSize().x, -getSize().y);
 }
 
 bool Player::initialise()
 {
+	eraseTrail();
 	m_sprite.setTexture(*m_pGame->getPlayerTexture());
 	sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
 	m_sprite.setOrigin(textureSize.x / 2, textureSize.y / 2);
 	m_sprite.setScale(getSize().x / textureSize.x, getSize().y / textureSize.y);
+	m_sprite.setRotation(0);
 	setColor(sf::Color::Green);
 	setIsDead(false);
 	setPosition(ScreenWidth / 2, ScreenHeight / 2);
@@ -52,7 +55,7 @@ void Player::move(InputData inputData, float deltaTime)
 		sf::Transformable::move(direction * speed);
 		setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth), getPosition().y);
 		setRotation(m_angle * 180 / M_PI);
-		m_rectangleShape.setPosition(getPosition().x, getPosition().y);
+		// m_rectangleShape.setPosition(getPosition().x, getPosition().y);
 		m_rectangleShape.setSize(getSize());
 		m_rectangleShape.setRotation(getRotation());
 	}
