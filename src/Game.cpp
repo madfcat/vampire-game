@@ -96,6 +96,8 @@ void Game::resetLevel()
 	m_enemiesKilledCount = 0;
 	m_pPlayer->initialise();
 	m_pClock->restart();
+	m_vampireCooldown = 2.0f;
+	m_nextVampireCooldown = 2.0f;
 }
 
 void Game::update(float deltaTime)
@@ -237,9 +239,10 @@ void Game::vampireSpawner(float deltaTime)
 	m_spawnCount++;
 	if (m_spawnCount % 5 == 0)
 	{
-		m_nextVampireCooldown -= 0.1f;
+		m_nextVampireCooldown = std::max(0.3f, m_nextVampireCooldown - 0.1f);
 	}
 	m_vampireCooldown = m_nextVampireCooldown;
+
 }
 
 void Game::addEnemiesKilled(int n)
